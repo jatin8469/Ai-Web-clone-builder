@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing required field: url" });
   }
 
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
   if (!apiKey) {
     return res.status(500).json({ error: "OPENROUTER_API_KEY is not configured on the server." });
   }
