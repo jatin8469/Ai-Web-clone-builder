@@ -84,34 +84,33 @@ Return ONLY a complete HTML document starting with:
 <!DOCTYPE html>`;
 
   try {
-    const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://ai-website-builder.app",
-        "X-Title": "AI Website Builder",
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct:free",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 4096,
+        contents: [{ parts: [{ text: prompt }] }],
       }),
     });
 
-    if (!openRouterRes.ok) {
-      const errorText = await openRouterRes.text();
-      return res.status(502).json({ error: `OpenRouter API error: ${openRouterRes.status}`, details: errorText });
+    if (!geminiRes.ok) {
+      const errorText = await geminiRes.text();
+      return res.status(502).json({ error: `Gemini API error: ${geminiRes.status}`, details: errorText });
     }
 
-    const data = await openRouterRes.json();
-    let html = data.choices?.[0]?.message?.content || "";
+    const data = await geminiRes.json();
+    let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-    // Cleanup markdown fences
-    html = html.replace(/^```html\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "").trim();
+    // Extract only the HTML part using regex (matches everything from <!DOCTYPE html> to </html>)
+    const match = rawContent.match(/<!DOCTYPE html>[\s\S]*<\/html>/i);
+    let html = match ? match[0] : rawContent;
 
-    if (!html) {
-      return res.status(500).json({ error: "AI returned an empty response." });
+    // Fallback: cleanup markdown fences if match fails
+    html = html.replace(/```html/gi, "").replace(/```/g, "").trim();
+
+    if (!html || !html.toLowerCase().includes('<html')) {
+      return res.status(500).json({ error: "AI failed to generate a valid HTML document." });
     }
 
     return res.status(200).json({ html });
