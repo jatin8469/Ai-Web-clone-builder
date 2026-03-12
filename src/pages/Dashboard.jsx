@@ -11,8 +11,22 @@ export default function Dashboard() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [generationTime, setGenerationTime] = useState(0);
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      setGenerationTime(0);
+      interval = setInterval(() => {
+        setGenerationTime(prev => prev + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
 
   useEffect(() => {
     fetchProjects();
@@ -120,10 +134,13 @@ export default function Dashboard() {
             <button
               disabled={loading}
               type="submit"
-              className="bg-blue-600 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/20 disabled:hidden text-white font-medium py-4 px-8 rounded-xl transition-all flex items-center justify-center space-x-2 whitespace-nowrap"
+              className="bg-blue-600 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/20 disabled:opacity-50 disabled:hover:bg-blue-600 text-white font-medium py-4 px-8 rounded-xl transition-all flex items-center justify-center space-x-2 whitespace-nowrap"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Generating...</span>
+                </>
               ) : (
                 <>
                   <Plus className="w-5 h-5" />
@@ -132,6 +149,17 @@ export default function Dashboard() {
               )}
             </button>
           </form>
+          
+          {loading && (
+            <div className="mt-6 p-6 bg-slate-800/80 border border-blue-500/30 rounded-xl flex flex-col items-center justify-center space-y-3 animate-pulse">
+              <p className="text-blue-400 font-medium text-lg">AI is designing your website...</p>
+              <div className="font-mono text-2xl text-slate-100 flex items-center space-x-2">
+                <Clock className="w-5 h-5 text-slate-400 animate-pulse" />
+                <span>{Math.floor(generationTime / 60)}:{generationTime % 60 < 10 ? '0' : ''}{generationTime % 60}</span>
+              </div>
+              <p className="text-slate-500 text-sm italic text-center max-w-sm">This usually takes 15-30 seconds depending on the complexity of the site.</p>
+            </div>
+          )}
         </div>
 
         <div>
