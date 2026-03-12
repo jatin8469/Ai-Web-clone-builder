@@ -15,72 +15,44 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "OPENROUTER_API_KEY is not configured on the server." });
   }
 
-  const prompt = `You are an expert UI/UX designer and senior frontend developer.
+  const prompt = `You are an elite, world-class UI/UX designer and Senior React/Tailwind expert.
 
-Your job is to generate a modern, beautiful, responsive landing page based on a given website URL or business name.
+Your primary objective is to generate a STUNNING, premium, modern, and highly responsive landing page based on the given website URL or business name. The user expects perfection. DO NOT output basic, generic, or simple designs. You must WOW the user with visual excellence.
 
-Requirements:
-- Output ONLY valid HTML (no explanations).
-- Use TailwindCSS CDN for styling.
-- Create a fully responsive layout.
-- Use clean, professional UI design.
-- Use modern SaaS design principles.
+### CORE REQUIREMENTS:
+- Output ONLY valid, complete HTML.
+- NO explanations, NO conversational filler. ONLY the HTML code.
+- Use TailwindCSS (via CDN) for all styling.
+- Ensure the layout is fully responsive (mobile, tablet, desktop).
 
-The generated page must include these sections:
+### AESTHETICS & DESIGN SYSTEM (CRITICAL):
+1. Typography: Use premium Google Fonts (e.g., 'Inter', 'Outfit', 'Plus Jakarta Sans'). Do not use browser defaults.
+2. Color Palette: Avoid plain colors. Use curated, vibrant, harmonious color palettes. Implement smooth, modern linear or radial gradients for backgrounds and text.
+3. Micro-Animations & Interactions: Add dynamic hover effects, transition-all duration-300, scale transforms, and subtle shadow expansions on interactive elements.
+4. Glassmorphism: Use backdrop-blur, semi-transparent backgrounds, and glowing borders where appropriate (especially in navbars, cards, and hero sections).
+5. Dark Mode / Premium Look: Default to a sleek, premium light mode, or a stunning modern dark mode if it suits the brand better. Incorporate glowing accents.
+6. Images & Icons: Use high-quality placeholders (e.g., Unsplash source URLs \`https://source.unsplash.com/random/800x600/?technology,business\`) or premium SVG icons.
 
-1. Navigation Bar
-- Logo or brand name
-- Links: Home, Features, Pricing, About, Contact
-- Primary CTA button
+### STRUCTURE & SECTIONS:
+The generated page must be comprehensive and include:
+1. Modern Navigation Bar (sticky, glassmorphism, logo, links, attractive CTA button).
+2. Jaw-dropping Hero Section (large bold headline, beautiful gradient text, compelling subtext, primary/secondary buttons, and a stunning illustration or floating image mockup).
+3. Features Section (bento grid or modern multi-column layout, glowing cards, rich SVG icons, clear descriptions).
+4. Services/Products Section (interactive cards with hover states).
+5. Testimonials/Social Proof (avatars, names, roles, star ratings, clean card design).
+6. Pricing Section (3 tiers, prominent "Recommended" glowing tier, clear checkmarks for features).
+7. Call To Action (CTA) Section (high-contrast, urgent, compelling gradient background, large button).
+8. Footer (clean, organized links, social icons, copyright).
 
-2. Hero Section
-- Large headline
-- Supporting description
-- Two call-to-action buttons
-- Illustration or visual placeholder
-
-3. Features Section
-- 3–4 feature cards
-- Icons
-- Clear descriptions
-
-4. Services / Product Section
-- Grid layout
-- Cards with title and description
-
-5. Testimonials Section
-- 3 customer testimonials
-- Profile image placeholders
-- Name and role
-
-6. Pricing Section
-- 3 pricing plans
-- Highlight the recommended plan
-
-7. Call To Action Section
-- Strong conversion message
-- Button encouraging signup
-
-8. Footer
-- Links
-- Contact information
-- Social media icons
-- Copyright text
-
-Design Guidelines:
-- Use TailwindCSS CDN:
-https://cdn.tailwindcss.com
-- Add subtle hover animations
-- Use rounded cards
-- Proper spacing and grid layout
-- Professional typography
-- Mobile responsive
+### QUALITY ASSURANCE:
+- Do not use placeholders like "[Insert Content Here]". Write realistic, persuasive, professional copywriting relevant to the input.
+- Use plenty of whitespace (padding and margin) to make the design breathe.
+- Your HTML must be valid and semantic. Include all necessary `<style>` tags for custom fonts or animations that Tailwind cannot handle directly.
 
 Input:
 A website URL or business name: ${url}
 
-Return ONLY a complete HTML document starting with:
-
+Return ONLY a complete HTML document starting EXACTLY with:
 <!DOCTYPE html>`;
 
   try {
