@@ -64,7 +64,7 @@ export default function Overview() {
     <div className="space-y-10">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {currentUser?.email?.split('@')[0]}</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {currentUser?.displayName || currentUser?.email?.split('@')[0]}</h1>
           <p className="text-slate-400">Here's what's happening with your projects.</p>
         </div>
         <button 
