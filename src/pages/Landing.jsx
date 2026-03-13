@@ -11,10 +11,8 @@ import {
   Monitor, 
   Smartphone,
   Layers,
-  Sparkles,
-  ChevronRight
+  Sparkles
 } from 'lucide-react';
-import '../styles/HeroPremium.css';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -73,84 +71,89 @@ export default function Landing() {
       </nav>
 
       <main>
-        {/* Premium Hero Section */}
-        <section className="hero-premium-container pt-32 pb-40 md:pt-48 md:pb-60 min-h-[90vh] flex items-center relative">
-          {/* Backdrop Layers */}
-          <div className="hero-mesh-background" />
-          <div className="network-overlay" />
-          
-          {/* Animated Glass Hexagons */}
-          <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="glass-hex w-32 h-32 left-[10%] top-[20%] opacity-40" style={{ animationDelay: '0s' }} />
-            <div className="glass-hex w-24 h-24 left-[5%] top-[50%] opacity-30" style={{ animationDelay: '2s' }} />
-            <div className="glass-hex w-40 h-40 left-[15%] bottom-[15%] opacity-20" style={{ animationDelay: '4s' }} />
-            
-            <div className="absolute right-[12%] top-[35%] z-10">
-              <div className="text-[12rem] font-black text-white/5 select-none leading-none rotate-12">AI</div>
-            </div>
-            
-            <div className="glass-hex w-20 h-20 right-[25%] top-[15%] opacity-25" style={{ animationDelay: '1s' }} />
-            <div className="glass-hex w-28 h-28 right-[10%] bottom-[20%] opacity-35" style={{ animationDelay: '3s' }} />
+        {/* Hero Section */}
+        <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+          {/* Background Decorations */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 blur-[120px] rounded-full animate-pulse"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-600/10 blur-[120px] rounded-full animate-pulse delay-700"></div>
           </div>
 
-          {/* Central Content Box */}
           <motion.div 
-            className="relative z-10 max-w-5xl mx-auto px-6 pt-12 text-center"
+            className="max-w-5xl mx-auto px-6 text-center"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {/* Main Glass Panel */}
-            <div className="bg-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-[4rem] p-12 md:p-20 shadow-2xl relative overflow-hidden">
-               {/* Inner Glow/Light Streaks */}
-               <div className="absolute top-0 left-1/4 w-1/2 h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-               <div className="absolute bottom-0 right-1/4 w-1/2 h-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-               
-               <motion.h1 
-                variants={itemVariants}
-                className="text-6xl md:text-8xl font-black mb-6 glow-text tracking-tight uppercase"
+            <motion.div variants={itemVariants} className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full text-indigo-400 text-xs font-semibold mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Next Generation AI Builder</span>
+            </motion.div>
+            
+            <motion.h1 
+              variants={itemVariants}
+              className="text-5xl md:text-7xl font-bold tracking-tight mb-8"
+            >
+              The AI that builds <br />
+              <span className="bg-gradient-to-r from-indigo-400 via-white to-emerald-400 bg-clip-text text-transparent">
+                Exceptional Websites
+              </span>
+            </motion.h1>
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed"
+            >
+              Transform any URL or business idea into a premium, responsive landing page in seconds. Powered by Gemeni 1.5 Pro and full Tailwind support.
+            </motion.p>
+            
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button 
+                onClick={() => navigate('/signup')}
+                className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2 group"
               >
-                AI Builder
-              </motion.h1>
-              
-              <motion.p 
-                variants={itemVariants}
-                className="text-xl md:text-2xl text-slate-300 font-medium mb-12 max-w-3xl mx-auto"
+                <span>Try it for free</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button 
+                className="w-full sm:w-auto bg-slate-900 border border-white/10 hover:border-white/20 px-8 py-4 rounded-2xl text-lg font-semibold transition-colors flex items-center justify-center space-x-2"
               >
-                Empower Your Innovation with AI-Powered Intelligence.
-              </motion.p>
-              
-              <motion.div 
-                variants={itemVariants} 
-                className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12"
-              >
-                <button 
-                  onClick={() => navigate('/features')}
-                  className="group text-slate-400 hover:text-white font-medium flex items-center space-x-2 transition-colors"
-                >
-                  <span>Explore Features</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <button 
-                  onClick={() => navigate('/signup')}
-                  className="premium-button-glow px-10 py-5 rounded-full text-lg font-bold text-white shadow-2xl active:scale-95 transition-all"
-                >
-                  Start Your Free Trial
-                </button>
-
-                <button 
-                  onClick={() => navigate('/demo')}
-                  className="text-slate-400 hover:text-white font-medium flex items-center space-x-2 transition-colors"
-                >
-                  <span>Book a Demo</span>
-                </button>
-              </motion.div>
-            </div>
+                <Monitor className="w-5 h-5 text-slate-400" />
+                <span>Watch Demo</span>
+              </button>
+            </motion.div>
           </motion.div>
 
-          {/* Interactive cursor follow glow (CSS only simplified) */}
-          <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(99,102,241,0.4)_0%,transparent_50%)]" />
+          {/* Abstract Preview Image */}
+          <motion.div 
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="max-w-6xl mx-auto px-6 mt-20 relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
+              <img 
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426" 
+                alt="Dashboard Preview" 
+                className="w-full h-auto opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              
+              {/* Floating Elements */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center px-4">
+                <div className="inline-block p-4 bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
+                  <div className="flex items-center space-x-4 mb-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  </div>
+                  <div className="text-left font-mono text-sm text-indigo-400 animate-pulse">
+                    &gt; AI is generating your design...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         {/* Features Grid */}
