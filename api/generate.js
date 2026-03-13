@@ -47,7 +47,7 @@ The generated page must be comprehensive and include:
 ### QUALITY ASSURANCE:
 - Do not use placeholders like "[Insert Content Here]". Write realistic, persuasive, professional copywriting relevant to the input.
 - Use plenty of whitespace (padding and margin) to make the design breathe.
-- Your HTML must be valid and semantic. Include all necessary `<style>` tags for custom fonts or animations that Tailwind cannot handle directly.
+- Your HTML must be valid and semantic. Include all necessary \`<style>\` tags for custom fonts or animations that Tailwind cannot handle directly.
 
 Input:
 A website URL or business name: ${url}
@@ -56,7 +56,9 @@ Return ONLY a complete HTML document starting EXACTLY with:
 <!DOCTYPE html>`;
 
   try {
-    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    const fetchUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    console.log("DEBUG FETCH URL:", fetchUrl, "KEY LENGTH:", apiKey?.length);
+    const geminiRes = await fetch(fetchUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
