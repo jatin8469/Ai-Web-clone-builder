@@ -1,15 +1,10 @@
-// Points to the backend server.
-// In development: http://localhost:3001
-// In production: set VITE_BACKEND_URL to your Render backend URL
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
-
-export async function generateWebsiteHtml(url) {
-  const response = await fetch(`${BACKEND_URL}/generate`, {
+export async function generateWebsiteHtml(url, template = 'Startup') {
+  const response = await fetch('/api/generate', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({ url, template }),
   });
 
   if (!response.ok) {
@@ -24,4 +19,22 @@ export async function generateWebsiteHtml(url) {
   }
 
   return data.html;
+}
+
+export async function generateStructuredWebsite({ description, template, mode, redesignUrl, imageBase64, currentSiteData }) {
+  const response = await fetch('/api/builder-generate', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ description, template, mode, redesignUrl, imageBase64, currentSiteData }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to generate structured website from server.');
+  }
+
+  const result = await response.json();
+  return result.data; // The parsed JSON 
 }

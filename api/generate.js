@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { url } = req.body;
+  const { url, template } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "Missing required field: url" });
@@ -17,7 +17,15 @@ export default async function handler(req, res) {
 
   const prompt = `You are an elite, world-class UI/UX designer and Senior React/Tailwind expert.
 
-Your primary objective is to generate a STUNNING, premium, modern, and highly responsive landing page based on the given website URL or business name. The user expects perfection. DO NOT output basic, generic, or simple designs. You must WOW the user with visual excellence.
+Your primary objective is to generate a STUNNING, premium, modern, and highly responsive landing page based on the given website URL or business name. 
+
+### TEMPLATE STYLE: ${template || 'General'}
+You MUST strictly follow the design language of this template:
+- **Startup**: Growth focused, modern, clean, with strong CTAs, bento grids, and social proof.
+- **SaaS**: High-tech, feature-rich, interactive elements, data visualizations, and dark accents.
+- **Portfolio**: Creative, visual-heavy, large elegant typography, smooth transitions, and personal branding.
+- **Restaurant**: Image-heavy, elegant serif/sans mix, warm or sophisticated colors, and menu/reservation focus.
+- **Agency**: Professional, grid-based, bold headlines, service showcases, and contact forms.
 
 ### CORE REQUIREMENTS:
 - Output ONLY valid, complete HTML.
@@ -25,29 +33,18 @@ Your primary objective is to generate a STUNNING, premium, modern, and highly re
 - Use TailwindCSS (via CDN) for all styling.
 - Ensure the layout is fully responsive (mobile, tablet, desktop).
 
+### STRUCTURE & QUALITY:
+1. **Sections**: Include a Navigation Bar, Hero, Features/Services, Social Proof/Testimonials, and a strong CTA Footer.
+2. **Copywriting**: Write realistic, persuasive, professional copywriting based on the input "${url}". No placeholders.
+3. **Typography**: Use premium Google Fonts.
+4. **Interactions**: Add subtle hover animations and smooth transitions.
+
 ### AESTHETICS & DESIGN SYSTEM (CRITICAL):
 1. Typography: Use premium Google Fonts (e.g., 'Inter', 'Outfit', 'Plus Jakarta Sans'). Do not use browser defaults.
 2. Color Palette: Avoid plain colors. Use curated, vibrant, harmonious color palettes. Implement smooth, modern linear or radial gradients for backgrounds and text.
 3. Micro-Animations & Interactions: Add dynamic hover effects, transition-all duration-300, scale transforms, and subtle shadow expansions on interactive elements.
 4. Glassmorphism: Use backdrop-blur, semi-transparent backgrounds, and glowing borders where appropriate (especially in navbars, cards, and hero sections).
 5. Dark Mode / Premium Look: Default to a sleek, premium light mode, or a stunning modern dark mode if it suits the brand better. Incorporate glowing accents.
-6. Images & Icons: Use high-quality placeholders (e.g., Unsplash source URLs \`https://source.unsplash.com/random/800x600/?technology,business\`) or premium SVG icons.
-
-### STRUCTURE & SECTIONS:
-The generated page must be comprehensive and include:
-1. Modern Navigation Bar (sticky, glassmorphism, logo, links, attractive CTA button).
-2. Jaw-dropping Hero Section (large bold headline, beautiful gradient text, compelling subtext, primary/secondary buttons, and a stunning illustration or floating image mockup).
-3. Features Section (bento grid or modern multi-column layout, glowing cards, rich SVG icons, clear descriptions).
-4. Services/Products Section (interactive cards with hover states).
-5. Testimonials/Social Proof (avatars, names, roles, star ratings, clean card design).
-6. Pricing Section (3 tiers, prominent "Recommended" glowing tier, clear checkmarks for features).
-7. Call To Action (CTA) Section (high-contrast, urgent, compelling gradient background, large button).
-8. Footer (clean, organized links, social icons, copyright).
-
-### QUALITY ASSURANCE:
-- Do not use placeholders like "[Insert Content Here]". Write realistic, persuasive, professional copywriting relevant to the input.
-- Use plenty of whitespace (padding and margin) to make the design breathe.
-- Your HTML must be valid and semantic. Include all necessary \`<style>\` tags for custom fonts or animations that Tailwind cannot handle directly.
 
 Input:
 A website URL or business name: ${url}
