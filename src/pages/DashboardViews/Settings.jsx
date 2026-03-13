@@ -1,19 +1,54 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Shield, CreditCard, Bell, Save } from 'lucide-react';
+import { User, Shield, CreditCard, Bell, Save, Loader2, ExternalLink, Key } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 export default function Settings() {
   const { currentUser } = useAuth();
+  const [displayName, setDisplayName] = useState(currentUser?.displayName || '');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+
+  const handleSaveProfile = async () => {
+    if (!currentUser) return;
+    setIsSaving(true);
+    try {
+      await updateProfile(currentUser, { displayName });
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!currentUser?.email) return;
+    setIsResetting(true);
+    try {
+      await sendPasswordResetEmail(auth, currentUser.email);
+      alert(`Password reset email sent to ${currentUser.email}! Please check your inbox.`);
+    } catch (error) {
+      console.error('Error sending password reset:', error);
+      alert('Failed to send password reset email.');
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  const handleUpgrade = () => {
+    alert("Pro subscription integration coming soon! (Stripe integration required)");
+  };
 
   const settingsSections = [
     {
       title: 'Profile Information',
       icon: User,
       description: 'Update your personal details and how others see you.',
-      fields: [
-        { label: 'Email Address', value: currentUser?.email, disabled: true },
-        { label: 'Display Name', value: currentUser?.displayName || 'User', disabled: false },
-      ]
+      isProfile: true
     },
     {
       title: 'Subscription',
@@ -25,8 +60,12 @@ export default function Settings() {
             <p className="font-semibold text-indigo-400">Free Plan</p>
             <p className="text-sm text-slate-400">You are currently on the lifetime free plan.</p>
           </div>
-          <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm transition-colors">
-            Upgrade Pro
+          <button 
+            onClick={handleUpgrade}
+            className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+          >
+            <span>Upgrade Pro</span>
+            <ExternalLink className="w-4 h-4" />
           </button>
         </div>
       )
@@ -36,8 +75,13 @@ export default function Settings() {
       icon: Shield,
       description: 'Password and authentication settings.',
       content: (
-        <button className="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
-          Change Password
+        <button 
+          onClick={handlePasswordReset}
+          disabled={isResetting}
+          className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors disabled:opacity-50"
+        >
+          {isResetting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
+          <span>{isResetting ? 'Sending Email...' : 'Send Password Reset Email'}</span>
         </button>
       )
     }
@@ -69,7 +113,33 @@ export default function Settings() {
               </div>
             </div>
 
-            {section.fields ? (
+            {section.isProfile ? (
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="text"
+                    value={currentUser?.email || ''}
+                    disabled={true}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white disabled:opacity-50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                    Display Name
+                  </label>
+                  <input
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    placeholder="Enter your name"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  />
+                </div>
+              </div>
+            ) : section.fields ? (
               <div className="grid sm:grid-cols-2 gap-4">
                 {section.fields.map(field => (
                   <div key={field.label}>
@@ -91,9 +161,13 @@ export default function Settings() {
 
             {section.title === 'Profile Information' && (
               <div className="mt-8 pt-6 border-t border-slate-800 flex justify-end">
-                <button className="bg-white text-slate-950 font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-all flex items-center space-x-2">
-                  <Save className="w-5 h-5" />
-                  <span>Save Changes</span>
+                <button 
+                  onClick={handleSaveProfile}
+                  disabled={isSaving}
+                  className="bg-white text-slate-950 font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-all flex items-center space-x-2 disabled:opacity-50"
+                >
+                  {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                  <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>
                 </button>
               </div>
             )}

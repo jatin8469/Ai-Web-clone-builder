@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
-import { collection, query, where, getDocs, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { 
   Globe, 
@@ -29,12 +29,19 @@ export default function Projects() {
     try {
       const q = query(
         collection(db, 'projects'),
-        where('userID', '==', currentUser.uid),
-        orderBy('createdAt', 'desc')
+        where('userID', '==', currentUser.uid)
       );
       const snap = await getDocs(q);
       const docs = [];
       snap.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+      
+      // Sort manually to avoid Firebase composite index requirement
+      docs.sort((a, b) => {
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeB - timeA;
+      });
+      
       setProjects(docs);
     } catch (err) {
       console.error("Error fetching projects:", err);
@@ -42,6 +49,14 @@ export default function Projects() {
       setLoading(false);
     }
   }
+
+  const getPreviewHtml = (project) => {
+    if (project.siteData) {
+      const pageHtml = project.siteData.pages?.[0]?.sections?.map(s => s.html).join('\n') || '';
+      return `<html><head><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-white">${pageHtml}</body></html>`;
+    }
+    return project.generatedCode || '';
+  };
 
   async function handleDelete(projectId) {
     if (!window.confirm("Are you sure you want to delete this project?")) return;
@@ -80,7 +95,7 @@ export default function Projects() {
         <div className="text-center py-24 bg-slate-900/50 rounded-[3rem] border border-white/5 border-dashed">
           <Layers className="w-16 h-16 text-slate-700 mx-auto mb-4" />
           <p className="text-lg text-slate-400 mb-6">You haven't built any websites yet.</p>
-          <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold">Build Your First Site</button>
+          <button onClick={() => navigate('/builder')} className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all">Build Your First Site</button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,7 +111,7 @@ export default function Projects() {
               <div className="h-44 bg-slate-950 relative overflow-hidden flex items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
                 <iframe 
-                  srcDoc={project.generatedCode} 
+                  srcDoc={getPreviewHtml(project)} 
                   title={project.id}
                   className="w-full h-[800px] origin-top border-none pointer-events-none scale-[0.22] opacity-40 group-hover:opacity-60 transition-opacity"
                 />

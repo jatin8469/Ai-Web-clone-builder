@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { 
   Zap, 
@@ -27,12 +27,18 @@ export default function Overview() {
     try {
       const q = query(
         collection(db, 'projects'),
-        where('userID', '==', currentUser.uid),
-        orderBy('createdAt', 'desc')
+        where('userID', '==', currentUser.uid)
       );
       const snap = await getDocs(q);
       const docs = [];
-      snap.forEach(doc => docs.push(doc.data()));
+      snap.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+
+      // Sort manually to avoid composite index requirements
+      docs.sort((a, b) => {
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeB - timeA;
+      });
 
       if (docs.length > 0) {
         const last = docs[0].createdAt?.toDate() || new Date();
