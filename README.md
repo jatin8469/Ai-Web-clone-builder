@@ -2,7 +2,7 @@
 
 AI Builder is a professional-grade SaaS platform that allows users to generate, refine, and deploy complete, multi-page websites using advanced AI models. Built with a modern tech stack, it features real-time project tracking, continuous AI chat refinement, and a sleek, premium user interface.
 
-![AI Builder Screenshot](https://raw.githubusercontent.com/jatin8469/Ai-Web-clone-builder/main/public/preview-banner.png)
+![AI Builder Banner](public/preview-banner.png)
 
 ## 🚀 Key Features
 
