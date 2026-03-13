@@ -45,7 +45,7 @@ export default function Landing() {
               <Globe className="w-6 h-6 text-white" />
             </div>
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-              AI Clone
+              AI Builder
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
@@ -296,7 +296,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center bg-slate-950">
           <div className="flex items-center space-x-2 mb-6 md:mb-0">
             <Globe className="w-5 h-5 text-indigo-400" />
-            <span className="font-bold text-slate-300">AI Clone</span>
+            <span className="font-bold text-slate-300">AI Builder</span>
           </div>
           
           <div className="flex space-x-8 text-sm text-slate-500 mb-6 md:mb-0">
@@ -315,7 +315,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="text-center mt-8 text-xs text-slate-600">
-          © {new Date().getFullYear()} AI Clone Builder. All rights reserved.
+          © {new Date().getFullYear()} AI Builder. All rights reserved.
         </div>
       </footer>
     </div>
