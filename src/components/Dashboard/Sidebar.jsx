@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export default function Sidebar() {
   const { currentUser, logout } = useAuth();
@@ -23,6 +26,27 @@ export default function Sidebar() {
     { icon: <FolderIcon className="w-5 h-5" />, label: "My Projects", path: "/dashboard/projects" },
     { icon: <Settings className="w-5 h-5" />, label: "Settings", path: "/dashboard/settings" },
   ];
+
+  const [projectCount, setProjectCount] = useState(0);
+
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+    
+    async function fetchCount() {
+      try {
+        const q = query(
+          collection(db, 'projects'),
+          where('userID', '==', currentUser.uid)
+        );
+        const snap = await getDocs(q);
+        setProjectCount(snap.docs.length);
+      } catch (err) {
+        console.error("Failed to fetch project count:", err);
+      }
+    }
+
+    fetchCount();
+  }, [currentUser]);
 
   async function handleLogout() {
     try {
@@ -82,19 +106,23 @@ export default function Sidebar() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-white truncate">
-                {currentUser?.email?.split('@')[0]}
+                {currentUser?.displayName || currentUser?.email?.split('@')[0]}
               </p>
               <p className="text-xs text-slate-500 truncate">
-                Professional Plan
+                Free Plan
               </p>
             </div>
           </div>
-          <div className="w-full bg-slate-800 rounded-full h-1.5 mb-1.5">
-            <div className="bg-indigo-600 h-1.5 rounded-full w-2/3"></div>
+          <div className="w-full bg-slate-800 rounded-full h-1.5 mb-1.5 overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${Math.min((projectCount / 50) * 100, 100)}%` }}
+              className="bg-indigo-600 h-1.5 rounded-full"
+            ></motion.div>
           </div>
           <p className="text-[10px] text-slate-500 flex justify-between">
             <span>Usage</span>
-            <span>22 / 50 sites</span>
+            <span>{projectCount} / 50 sites</span>
           </p>
         </div>
 
