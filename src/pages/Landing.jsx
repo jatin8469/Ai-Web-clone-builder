@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   Globe, 
@@ -11,11 +11,14 @@ import {
   Monitor, 
   Smartphone,
   Layers,
-  Sparkles
+  Sparkles,
+  X,
+  Download
 } from 'lucide-react';
 
 export default function Landing() {
   const navigate = useNavigate();
+  const [showVideoModal, setShowVideoModal] = React.useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,6 +37,66 @@ export default function Landing() {
       opacity: 1
     }
   };
+
+  const VideoModal = () => (
+    <AnimatePresence>
+      {showVideoModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 backdrop-blur-xl p-4 md:p-10"
+          onClick={() => setShowVideoModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="relative w-full max-w-5xl aspect-video bg-slate-900 rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-slate-900/80 to-transparent flex items-center justify-between px-6 z-10">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                <span className="text-sm font-semibold text-slate-200">AI Builder Platform Demo</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <a 
+                  href="/demo-walkthrough.webp" 
+                  download="AI-Builder-Demo.webp"
+                  className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download File</span>
+                </a>
+                <button 
+                  onClick={() => setShowVideoModal(false)}
+                  className="p-1.5 hover:bg-white/10 rounded-full text-slate-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Video Content */}
+            <div className="w-full h-full pt-16">
+              <img 
+                src="/demo-walkthrough.webp" 
+                alt="AI Builder Demo Walkthrough" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Hint */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono uppercase tracking-widest">
+              Tap anywhere outside to close
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-indigo-500/30">
@@ -116,6 +179,7 @@ export default function Landing() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button 
+                onClick={() => setShowVideoModal(true)}
                 className="w-full sm:w-auto bg-slate-900 border border-white/10 hover:border-white/20 px-8 py-4 rounded-2xl text-lg font-semibold transition-colors flex items-center justify-center space-x-2"
               >
                 <Monitor className="w-5 h-5 text-slate-400" />
@@ -293,6 +357,7 @@ export default function Landing() {
       </main>
 
       <footer className="border-t border-white/5 py-12">
+        <VideoModal />
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center bg-slate-950">
           <div className="flex items-center space-x-2 mb-6 md:mb-0">
             <Globe className="w-5 h-5 text-indigo-400" />
