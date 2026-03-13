@@ -11,7 +11,9 @@ import {
   Layers,
   Search,
   MoreVertical,
-  Edit3
+  Edit3,
+  Loader2,
+  AlertTriangle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +22,8 @@ export default function Projects() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -58,13 +62,21 @@ export default function Projects() {
     return project.generatedCode || '';
   };
 
-  async function handleDelete(projectId) {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+  const handleDeleteClick = (projectId) => {
+    setProjectToDelete(projectId);
+  };
+
+  async function confirmDelete() {
+    if (!projectToDelete) return;
+    setIsDeleting(true);
     try {
-      await deleteDoc(doc(db, 'projects', projectId));
-      setProjects(projects.filter(p => p.id !== projectId));
+      await deleteDoc(doc(db, 'projects', projectToDelete));
+      setProjects(projects.filter(p => p.id !== projectToDelete));
+      setProjectToDelete(null);
     } catch (err) {
       console.error("Delete failed:", err);
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -127,7 +139,7 @@ export default function Projects() {
                   <h3 className="font-bold text-lg text-white truncate max-w-[180px]" title={project.websiteUrl}>
                     {project.websiteUrl}
                   </h3>
-                  <button onClick={() => handleDelete(project.id)} className="p-2 text-slate-500 hover:text-rose-500 transition-colors">
+                  <button onClick={() => handleDeleteClick(project.id)} className="p-2 text-slate-500 hover:text-rose-500 transition-colors">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -161,6 +173,42 @@ export default function Projects() {
               </div>
             </motion.div>
           ))}
+        </div>
+      )}
+
+      {projectToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl relative overflow-hidden flex flex-col items-center"
+          >
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-rose-500 to-orange-500"></div>
+            <div className="w-12 h-12 bg-rose-500/20 rounded-full flex items-center justify-center text-rose-400 mb-4 mt-2">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Delete Project</h3>
+            <p className="text-slate-400 text-center mb-6">
+              Are you sure you want to delete this project? This action cannot be undone.
+            </p>
+            <div className="flex w-full space-x-3">
+              <button 
+                onClick={() => setProjectToDelete(null)}
+                disabled={isDeleting}
+                className="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-xl transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                disabled={isDeleting}
+                className="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-medium py-2.5 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+              >
+                {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                <span>{isDeleting ? 'Deleting...' : 'Delete'}</span>
+              </button>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>
