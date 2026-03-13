@@ -21,30 +21,30 @@ Your primary objective is to generate a STUNNING, premium, modern, and highly re
 
 ### TEMPLATE STYLE: ${template || 'General'}
 You MUST strictly follow the design language of this template:
-- **Startup**: Growth focused, modern, clean, with strong CTAs, bento grids, and social proof.
+- **Startup**: Growth focused, modern, clean, with strong CTAs, bento-box grids, and social proof.
 - **SaaS**: High-tech, feature-rich, interactive elements, data visualizations, and dark accents.
-- **Portfolio**: Creative, visual-heavy, large elegant typography, smooth transitions, and personal branding.
-- **Restaurant**: Image-heavy, elegant serif/sans mix, warm or sophisticated colors, and menu/reservation focus.
-- **Agency**: Professional, grid-based, bold headlines, service showcases, and contact forms.
+- **Portfolio**: Creative, visual-heavy, large elegant typography (e.g., lowercase geometric sans), smooth transitions, and personal branding.
+- **Restaurant**: Image-heavy, elegant serif/sans mix, warm or sophisticated colors, menu/reservation focus.
+- **Agency**: Professional, grid-based, bold typography, service showcases, contact forms.
 
 ### CORE REQUIREMENTS:
 - Output ONLY valid, complete HTML.
 - NO explanations, NO conversational filler. ONLY the HTML code.
 - Use TailwindCSS (via CDN) for all styling.
-- Ensure the layout is fully responsive (mobile, tablet, desktop).
+- Ensure the layout is perfectly responsive (mobile, tablet, desktop) using grid and flexbox.
 
 ### STRUCTURE & QUALITY:
-1. **Sections**: Include a Navigation Bar, Hero, Features/Services, Social Proof/Testimonials, and a strong CTA Footer.
-2. **Copywriting**: Write realistic, persuasive, professional copywriting based on the input "${url}". No placeholders.
-3. **Typography**: Use premium Google Fonts.
-4. **Interactions**: Add subtle hover animations and smooth transitions.
+1. **Sections**: Include at minimum: Navigation, Hero, Features/Services, Proof/Testimonials, and CTA Footer.
+2. **Copywriting**: Write realistic, persuasive, high-conversion copy based on the input "${url}". No "Lorem Ipsum".
+3. **Typography**: Use premium Google Fonts imported via CDN (e.g., Inter, Outfit, Plus Jakarta Sans, Syne).
+4. **Icons**: Use Phosphor Icons or Lucide Icons (via CDN).
 
-### AESTHETICS & DESIGN SYSTEM (CRITICAL):
-1. Typography: Use premium Google Fonts (e.g., 'Inter', 'Outfit', 'Plus Jakarta Sans'). Do not use browser defaults.
-2. Color Palette: Avoid plain colors. Use curated, vibrant, harmonious color palettes. Implement smooth, modern linear or radial gradients for backgrounds and text.
-3. Micro-Animations & Interactions: Add dynamic hover effects, transition-all duration-300, scale transforms, and subtle shadow expansions on interactive elements.
-4. Glassmorphism: Use backdrop-blur, semi-transparent backgrounds, and glowing borders where appropriate (especially in navbars, cards, and hero sections).
-5. Dark Mode / Premium Look: Default to a sleek, premium light mode, or a stunning modern dark mode if it suits the brand better. Incorporate glowing accents.
+### AESTHETICS & DESIGN SYSTEM (CRITICAL - THIS IS WHAT SEPARATES GOOD FROM GREAT):
+1. **Premium Typography**: Avoid default serif/sans. Use tight letter-spacing for headings (tracking-tight) and relaxed for body (leading-relaxed).
+2. **Rich Color Palettes**: AVOID basic colors (no plain blue-500). Use sophisticated palettes (e.g., slate-900 with indigo-500/emerald-400 accents). Use modern linear \`bg-gradient-to-r\` or radial gradients for backgrounds and text (\`bg-clip-text text-transparent\`).
+3. **Glassmorphism & Depth**: Deeply integrate glass details: \`bg-white/5 backdrop-blur-xl border border-white/10\`. Use multiple blended glow effects behind main elements.
+4. **Dynamic Micro-Interactions**: Elements must feel alive. Use \`transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:scale-[1.02]\` on cards and buttons.
+5. **Modern Layouts**: Use asymmetrical bento-box grids (\`grid-cols-1 md:grid-cols-3\` with varying col-spans) and overlapping absolute elements to break the standard blocky flow.
 
 Input:
 A website URL or business name: ${url}

@@ -42,7 +42,11 @@ Current Website JSON: ${JSON.stringify(currentSiteData)}
 Carefully apply the requested changes and output the entire updated JSON structure.` : ''}
 
 ### TEMPLATE STYLE: ${template || 'Startup'}
-Use the design language of this template (colors, typography, spacing). Use TailwindCSS utility classes.
+Use the design language of this template. It is IMPERATIVE that you apply modern, premium UI aesthetics:
+- **Typography**: Import and use premium Google Fonts (e.g., Inter, Outfit). Use \`tracking-tight\` for headings.
+- **Colors & Depth**: Avoid generic colors. Use rich gradients, \`bg-white/5 backdrop-blur-xl border border-white/10\`, and subtle glowing shadows (\`shadow-[0_0_40px_-15px_rgba(79,70,229,0.3)]\`).
+- **Layouts**: Use complex arrangements like bento grids, overlapping elements, and generous whitespace (\`py-24\`).
+- **Interactions**: Add \`transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl\` on cards/buttons.
 
 ### OUTPUT FORMAT (CRITICAL)
 You MUST output ONLY valid JSON. Do not include markdown code block formatting like \`\`\`json. Output raw JSON that perfectly matches the structure below:
