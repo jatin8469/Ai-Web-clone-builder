@@ -107,7 +107,10 @@ export default function Projects() {
         <div className="text-center py-24 bg-slate-900/50 rounded-[3rem] border border-white/5 border-dashed">
           <Layers className="w-16 h-16 text-slate-700 mx-auto mb-4" />
           <p className="text-lg text-slate-400 mb-6">You haven't built any websites yet.</p>
-          <button onClick={() => navigate('/builder')} className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all">Build Your First Site</button>
+          <button onClick={() => navigate('/builder')} className="btn-gradient px-8 py-3.5 rounded-xl font-bold text-shadow-sm flex items-center justify-center mx-auto space-x-2">
+            <Layers className="w-5 h-5" />
+            <span>Build Your First Site</span>
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -117,7 +120,7 @@ export default function Projects() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.05 }}
-              className="bg-slate-900 border border-white/5 rounded-[2.5rem] overflow-hidden group hover:border-indigo-500/30 transition-all duration-300"
+              className="premium-glass-card overflow-hidden group"
             >
               {/* Preview Proxy */}
               <div className="h-44 bg-slate-950 relative overflow-hidden flex items-center justify-center">
@@ -152,7 +155,7 @@ export default function Projects() {
                 <div className="flex items-center space-x-2">
                   <button 
                   onClick={() => navigate(`/builder/${project.id}`)}
-                  className="flex-1 bg-indigo-600/10 hover:bg-indigo-600 text-indigo-400 hover:text-white py-2.5 rounded-xl transition-all text-sm font-bold flex items-center justify-center space-x-2"
+                  className="btn-gradient flex-1 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center space-x-2"
                   >
                     <Edit3 className="w-4 h-4" />
                     <span>Edit in Builder</span>
@@ -209,7 +212,7 @@ export default function Projects() {
               <button 
                 onClick={confirmDelete}
                 disabled={isDeleting}
-                className="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-medium py-2.5 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+                className="flex-1 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white shadow-lg shadow-rose-600/20 font-medium py-2.5 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center space-x-2 hover:-translate-y-0.5 active:translate-y-0"
               >
                 {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 <span>{isDeleting ? 'Deleting...' : 'Delete'}</span>

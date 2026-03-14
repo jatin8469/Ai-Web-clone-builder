@@ -60,7 +60,7 @@ export default function Landing() {
             <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-slate-900/80 to-transparent flex items-center justify-between px-6 z-10">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                <span className="text-sm font-semibold text-slate-200">AI Builder Platform Demo</span>
+                <span className="text-sm font-semibold text-slate-200">AI Website Builder Platform Demo</span>
               </div>
               <div className="flex items-center space-x-3">
                 <a 
@@ -84,7 +84,7 @@ export default function Landing() {
             <div className="w-full h-full pt-16">
               <img 
                 src="/demo-walkthrough.webp" 
-                alt="AI Builder Demo Walkthrough" 
+                alt="AI Website Builder Demo Walkthrough" 
                 className="w-full h-full object-cover"
               />
             </div>
@@ -109,7 +109,7 @@ export default function Landing() {
               <Globe className="w-6 h-6 text-white" />
             </div>
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-              AI Builder
+              AI Website Builder
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
@@ -126,7 +126,7 @@ export default function Landing() {
             </button>
             <button 
               onClick={() => navigate('/signup')}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-indigo-600/20 hover:scale-[1.02] active:scale-[0.98]"
+              className="btn-gradient px-5 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center"
             >
               Get Started
             </button>
@@ -151,7 +151,7 @@ export default function Landing() {
           >
             <motion.div variants={itemVariants} className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full text-indigo-400 text-xs font-semibold mb-6">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Next Generation AI Builder</span>
+              <span>Next Generation AI Website Builder</span>
             </motion.div>
             
             <motion.h1 
@@ -174,16 +174,16 @@ export default function Landing() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => navigate('/signup')}
-                className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2 group"
+                className="btn-gradient w-full sm:w-auto px-8 py-4 rounded-2xl text-lg font-bold flex items-center justify-center space-x-2 group"
               >
                 <span>Try it for free</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button 
                 onClick={() => setShowVideoModal(true)}
-                className="w-full sm:w-auto bg-slate-900 border border-white/10 hover:border-white/20 px-8 py-4 rounded-2xl text-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+                className="glass-button w-full sm:w-auto px-8 py-4 rounded-2xl text-lg font-semibold flex items-center justify-center space-x-2 text-slate-300 hover:text-white"
               >
-                <Monitor className="w-5 h-5 text-slate-400" />
+                <Monitor className="w-5 h-5" />
                 <span>Watch Demo</span>
               </button>
             </motion.div>
@@ -265,12 +265,12 @@ export default function Landing() {
                 <motion.div 
                   key={idx}
                   whileHover={{ y: -5 }}
-                  className="p-8 bg-slate-900/50 border border-white/5 rounded-3xl hover:border-indigo-500/30 transition-all duration-300 group"
+                  className="premium-card p-8 group"
                 >
-                  <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                  <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-lg group-hover:shadow-indigo-500/25">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
                   <p className="text-slate-400 leading-relaxed text-sm">
                     {feature.desc}
                   </p>
@@ -286,13 +286,21 @@ export default function Landing() {
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Stunning Templates</h2>
             <p className="text-slate-400 mb-12">Start with a premium layout and let AI make it your own.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-               {['Startup', 'SaaS', 'Portfolio'].map((t, idx) => (
-                 <div key={idx} className="group relative rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/50 transition-colors">
-                   <div className="aspect-[4/3] bg-slate-950 flex items-center justify-center">
-                     <Layout className="w-12 h-12 text-slate-800 group-hover:scale-110 transition-transform duration-500" />
+               {[
+                 { name: 'Startup', image: '/startup_template.png' },
+                 { name: 'SaaS', image: '/saas_template.png' },
+                 { name: 'Portfolio', image: '/portfolio_template.png' }
+               ].map((t, idx) => (
+                 <div key={idx} className="group relative rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/50 transition-all hover:shadow-xl hover:shadow-indigo-500/20">
+                   <div className="aspect-[4/3] bg-slate-950 relative overflow-hidden flex items-center justify-center">
+                     <img src={t.image} alt={`${t.name} Template`} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
                    </div>
-                   <div className="p-4 bg-slate-800/80 absolute bottom-0 w-full backdrop-blur-md border-t border-white/5 font-semibold text-slate-200">
-                     {t} Style
+                   <div className="p-4 bg-slate-900/90 absolute bottom-0 w-full backdrop-blur-md border-t border-white/10 font-semibold text-slate-200 flex items-center justify-between transition-colors group-hover:bg-slate-800/90 group-hover:text-white">
+                     <span>{t.name} Style</span>
+                     <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                       <ArrowRight className="w-4 h-4 text-indigo-400 -rotate-45 group-hover:rotate-0 transition-transform" />
+                     </div>
                    </div>
                  </div>
                ))}
@@ -308,20 +316,20 @@ export default function Landing() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
               {/* Free Tier */}
-              <div className="p-8 rounded-[2rem] bg-slate-900 border border-white/10 text-left hover:border-white/20 transition-all">
+              <div className="premium-glass-card p-8 text-left">
                 <h3 className="text-2xl font-bold mb-2">Hobby</h3>
-                <p className="text-slate-400 text-sm mb-6">Perfect for trying out the AI builder.</p>
+                <p className="text-slate-400 text-sm mb-6">Perfect for trying out the AI website builder.</p>
                 <div className="text-4xl font-bold mb-8">$0<span className="text-lg text-slate-500 font-normal">/mo</span></div>
                 <ul className="space-y-4 mb-8 text-sm text-slate-300">
                   <li className="flex items-center space-x-3"><Sparkles className="w-5 h-5 text-indigo-400" /><span>3 AI Generations</span></li>
                   <li className="flex items-center space-x-3"><Layout className="w-5 h-5 text-indigo-400" /><span>Basic Templates</span></li>
                   <li className="flex items-center space-x-3"><Zap className="w-5 h-5 text-indigo-400" /><span>HTML Export</span></li>
                 </ul>
-                <button onClick={() => navigate('/signup')} className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold transition-colors">Get Started</button>
+                <button onClick={() => navigate('/signup')} className="glass-button w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center">Get Started</button>
               </div>
               
               {/* Pro Tier */}
-              <div className="p-8 rounded-[2rem] bg-indigo-600 border border-indigo-400/30 text-left relative overflow-hidden group hover:shadow-2xl hover:shadow-indigo-500/20 transition-all">
+              <div className="p-8 rounded-[2rem] bg-gradient-to-b from-indigo-600 to-indigo-900 border border-indigo-400/50 text-left relative overflow-hidden group shadow-[0_0_40px_rgba(79,70,229,0.3)] hover:shadow-[0_0_60px_rgba(79,70,229,0.5)] transition-all duration-500 hover:-translate-y-2">
                 <div className="absolute top-0 right-0 p-3 bg-white/20 rounded-bl-2xl text-xs font-bold text-white uppercase tracking-wider backdrop-blur-sm">Most Popular</div>
                 <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
                 <p className="text-indigo-200 text-sm mb-6">For professional creators and agencies.</p>
@@ -331,7 +339,7 @@ export default function Landing() {
                   <li className="flex items-center space-x-3"><Globe className="w-5 h-5 text-indigo-300" /><span>AI Redesign & URL Scraping</span></li>
                   <li className="flex items-center space-x-3"><Layers className="w-5 h-5 text-indigo-300" /><span>Premium Component System</span></li>
                 </ul>
-                <button onClick={() => navigate('/signup')} className="w-full py-3 rounded-xl bg-white text-indigo-600 font-bold hover:bg-slate-50 transition-colors shadow-xl shadow-indigo-900/20 group-hover:scale-[1.02]">Upgrade to Pro</button>
+                <button onClick={() => navigate('/signup')} className="btn-gradient w-full py-3 rounded-xl font-bold before:bg-white before:text-indigo-600 shadow-xl shadow-indigo-950/50 hover:shadow-indigo-500/50 text-white">Upgrade to Pro</button>
               </div>
             </div>
           </div>
@@ -362,7 +370,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center bg-slate-950">
           <div className="flex items-center space-x-2 mb-6 md:mb-0">
             <Globe className="w-5 h-5 text-indigo-400" />
-            <span className="font-bold text-slate-300">AI Builder</span>
+            <span className="font-bold text-slate-300">AI Website Builder</span>
           </div>
           
           <div className="flex space-x-8 text-sm text-slate-500 mb-6 md:mb-0">
@@ -381,7 +389,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="text-center mt-8 text-xs text-slate-600">
-          © {new Date().getFullYear()} AI Builder. All rights reserved.
+          © {new Date().getFullYear()} AI Website Builder. All rights reserved.
         </div>
       </footer>
     </div>

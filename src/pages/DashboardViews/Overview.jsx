@@ -62,14 +62,14 @@ export default function Overview() {
 
   return (
     <div className="space-y-10">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {currentUser?.displayName || currentUser?.email?.split('@')[0]}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Welcome back, {currentUser?.displayName || currentUser?.email?.split('@')[0]}</h1>
           <p className="text-slate-400">Here's what's happening with your projects.</p>
         </div>
         <button 
           onClick={() => navigate('/builder')}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl font-medium transition-all flex items-center space-x-2 shadow-lg shadow-indigo-600/20 active:scale-95"
+          className="btn-gradient px-6 py-3 rounded-xl font-bold flex items-center justify-center space-x-2 whitespace-nowrap"
         >
           <PlusCircle className="w-5 h-5" />
           <span>New Project</span>
@@ -84,8 +84,10 @@ export default function Overview() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             key={card.title}
-            className="p-6 bg-slate-900 border border-white/5 rounded-3xl hover:border-white/10 transition-colors group"
+            className="premium-card p-6 group relative overflow-hidden"
           >
+            {/* Ambient subtle glow for card */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-colors"></div>
             <div className="flex items-center justify-between mb-4">
               <div className={`p-2.5 bg-white/5 rounded-xl ${card.color}`}>
                 {card.icon}
@@ -101,7 +103,7 @@ export default function Overview() {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-slate-900 rounded-[2rem] border border-white/5 overflow-hidden">
+      <div className="premium-glass-card overflow-hidden">
         <div className="p-8 flex items-center justify-between border-b border-white/5">
           <div className="flex items-center space-x-3">
             <History className="w-6 h-6 text-indigo-400" />
@@ -123,19 +125,19 @@ export default function Overview() {
           ) : (
             <div className="space-y-4">
               {recentProjects.map((project, idx) => (
-                <div key={idx} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors group">
+                <div key={idx} className="flex items-center justify-between p-4 bg-slate-800/20 rounded-2xl border border-transparent hover:border-indigo-500/20 hover:bg-indigo-500/5 transition-all duration-300 group">
                   <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform duration-300">
                       <Layers className="w-6 h-6" />
                     </div>
                     <div>
-                      <p className="font-semibold text-white truncate max-w-[200px]">{project.websiteUrl}</p>
+                      <p className="font-semibold text-white truncate max-w-[200px] group-hover:text-indigo-300 transition-colors">{project.websiteUrl}</p>
                       <p className="text-xs text-slate-500">{project.createdAt?.toDate()?.toLocaleDateString()}</p>
                     </div>
                   </div>
                   <button 
                     onClick={() => navigate(`/builder/${project.id}`)}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition-colors opacity-0 group-hover:opacity-100"
+                    className="px-5 py-2 bg-slate-800 hover:bg-indigo-600 rounded-xl font-medium text-sm text-slate-300 hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
                   >
                     Open
                   </button>

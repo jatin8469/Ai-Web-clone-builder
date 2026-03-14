@@ -53,7 +53,7 @@ export default function SidebarRight({ siteData, setSiteData, activePageIdx, sel
   };
 
   return (
-    <div className="w-80 bg-slate-900 border-l border-slate-800 flex flex-col h-full overflow-hidden shrink-0">
+    <div className="w-full bg-slate-900 border-l border-slate-800 flex flex-col h-full overflow-hidden">
       
       <div className="flex p-4 space-x-2 border-b border-slate-800">
         <button

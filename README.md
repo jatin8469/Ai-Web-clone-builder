@@ -1,8 +1,8 @@
-# AI Builder - Intelligent Website Generator
+# AI Website Builder - Intelligent Website Generator
 
-AI Builder is a professional-grade SaaS platform that allows users to generate, refine, and deploy complete, multi-page websites using advanced AI models. Built with a modern tech stack, it features real-time project tracking, continuous AI chat refinement, and a sleek, premium user interface.
+AI Website Builder is a professional-grade SaaS platform that allows users to generate, refine, and deploy complete, multi-page websites using advanced AI models. Built with a modern tech stack, it features real-time project tracking, continuous AI chat refinement, and a sleek, premium user interface.
 
-![AI Builder Banner](public/preview-banner.png)
+![AI Website Builder Banner](public/preview-banner.png)
 
 ## 🚀 Key Features
 
@@ -72,4 +72,4 @@ AI Builder is a professional-grade SaaS platform that allows users to generate, 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-*Built with ❤️ by AI Builder Team.*
+*Built with ❤️ by AI Website Builder Team.*

@@ -62,7 +62,7 @@ export default function SidebarLeft({ siteData, setSiteData, activePageIdx, setA
 
 
   return (
-    <div className="w-80 bg-slate-900 border-r border-slate-800 flex flex-col h-full overflow-y-auto">
+    <div className="w-full bg-slate-900 border-r border-slate-800 flex flex-col h-full overflow-y-auto">
       
       {/* Generation Panel */}
       <div className="p-4 border-b border-slate-800">

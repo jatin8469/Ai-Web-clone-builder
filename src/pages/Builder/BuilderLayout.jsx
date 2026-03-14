@@ -283,7 +283,7 @@ export default function BuilderLayout() {
       </header>
 
       {/* Main Builder Area */}
-      <div className="flex flex-1 pt-14 h-full">
+      <div className="grid grid-cols-[320px_1fr_320px] flex-1 pt-14 h-full overflow-hidden">
         {/* Left Sidebar: Pages & Layers */}
         <SidebarLeft 
           siteData={siteData} 
@@ -297,7 +297,7 @@ export default function BuilderLayout() {
         />
 
         {/* Center Canvas: Live Preview */}
-        <div id="preview-canvas-container" className="flex-1 bg-slate-950 relative overflow-hidden flex flex-col items-center">
+        <div id="preview-canvas-container" className="bg-slate-950 relative overflow-hidden flex flex-col items-center min-w-0">
           <div className="absolute top-4 flex bg-slate-800 p-1 rounded-lg border border-slate-700 z-10 shadow-xl">
             {/* Viewport toggles could go here */}
             {siteData?.pages.map((page, idx) => (

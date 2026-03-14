@@ -116,7 +116,7 @@ export default function Generator() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-white">AI Builder</h1>
+        <h1 className="text-3xl font-bold text-white">AI Website Builder</h1>
         <div className="flex items-center space-x-2 bg-slate-900 p-1 rounded-xl border border-white/5">
           <button 
             onClick={() => setViewMode('preview')}
