@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
-import { doc, getDoc, updateDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
@@ -9,7 +9,7 @@ import SidebarLeft from '../../components/Builder/SidebarLeft';
 import SidebarRight from '../../components/Builder/SidebarRight';
 import PreviewCanvas from '../../components/Builder/PreviewCanvas';
 import { generateStructuredWebsite } from '../../ai/generateWebsite';
-import { Loader2, ArrowLeft, Save, Play, Download } from 'lucide-react';
+import { Loader2, ArrowLeft, Save, Play, Download, Maximize } from 'lucide-react';
 
 export default function BuilderLayout() {
   const { projectId } = useParams();
@@ -127,6 +127,15 @@ export default function BuilderLayout() {
   async function handleGenerate(payload) {
     setIsGenerating(true);
     try {
+      // If making a brand new project, enforce the 10 limit rule
+      if (!projectId) {
+        const q = query(collection(db, 'projects'), where('userID', '==', currentUser.uid));
+        const snap = await getDocs(q);
+        if (snap.size >= 10) {
+          throw new Error("You have reached the maximum limit of 10 projects. Please delete an older project to generate a new one.");
+        }
+      }
+
       const generatedJson = await generateStructuredWebsite(payload);
       const cleanGeneratedJson = JSON.parse(JSON.stringify(generatedJson));
       setSiteData(cleanGeneratedJson);
@@ -204,6 +213,18 @@ export default function BuilderLayout() {
     });
   };
 
+  const handleFullscreen = () => {
+    // You can fullscreen the entire page, or just the PreviewCanvas area
+    const elem = document.getElementById("preview-canvas-container") || document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  };
+
   const activePage = siteData?.pages[activePageIdx];
   const selectedSection = activePage?.sections[selectedSectionIdx];
 
@@ -242,6 +263,14 @@ export default function BuilderLayout() {
             <span>Export ZIP</span>
           </button>
 
+          <button
+            onClick={handleFullscreen}
+            title="Fullscreen Preview"
+            className="flex items-center justify-center p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors"
+          >
+            <Maximize className="w-4 h-4" />
+          </button>
+
           <button 
             onClick={handleSaveClick}
             disabled={isGenerating || isSaving}
@@ -268,7 +297,7 @@ export default function BuilderLayout() {
         />
 
         {/* Center Canvas: Live Preview */}
-        <div className="flex-1 bg-slate-950 relative overflow-hidden flex flex-col items-center">
+        <div id="preview-canvas-container" className="flex-1 bg-slate-950 relative overflow-hidden flex flex-col items-center">
           <div className="absolute top-4 flex bg-slate-800 p-1 rounded-lg border border-slate-700 z-10 shadow-xl">
             {/* Viewport toggles could go here */}
             {siteData?.pages.map((page, idx) => (
@@ -286,6 +315,7 @@ export default function BuilderLayout() {
             activePage={activePage} 
             selectedSectionIdx={selectedSectionIdx}
             setSelectedSectionIdx={setSelectedSectionIdx}
+            isGenerating={isGenerating}
           />
         </div>
 

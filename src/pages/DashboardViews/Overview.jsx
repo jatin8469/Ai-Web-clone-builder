@@ -57,7 +57,7 @@ export default function Overview() {
   const cards = [
     { title: "Total Sites", value: stats.total, icon: <Layers className="w-5 h-5" />, color: "text-blue-400" },
     { title: "Last Build", value: stats.lastTime, icon: <Clock className="w-5 h-5" />, color: "text-emerald-400" },
-    { title: "Usage Counter", value: `${stats.usage}/50`, icon: <Zap className="w-5 h-5" />, color: "text-amber-400" },
+    { title: "Usage Counter", value: `${stats.usage}/10`, icon: <Zap className="w-5 h-5" />, color: "text-amber-400" },
   ];
 
   return (

@@ -137,9 +137,9 @@ export default function SidebarRight({ siteData, setSiteData, activePageIdx, sel
         )}
 
         {activeTab === 'code' && (
-          <div className="h-full flex flex-col">
+          <div className="h-full flex flex-col pt-4">
             {selectedSection ? (
-              <>
+              <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-sm font-semibold text-white flex items-center space-x-2">
                     <LayoutPanelLeft className="w-4 h-4 text-indigo-400" />
@@ -153,12 +153,12 @@ export default function SidebarRight({ siteData, setSiteData, activePageIdx, sel
                 <textarea 
                   value={selectedSection.html}
                   onChange={(e) => handleCodeChange(e.target.value)}
-                  className="flex-1 w-full bg-[#0d1117] border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-indigo-500 leading-relaxed whitespace-pre"
+                  className="flex-1 w-full bg-[#0d1117] border border-slate-800 rounded-lg p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-indigo-500 leading-relaxed whitespace-pre resize-none"
                   spellCheck="false"
                 />
-              </>
+              </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-40 text-center border border-dashed border-slate-800 rounded-xl px-4">
+              <div className="flex flex-col items-center justify-center h-40 text-center border border-dashed border-slate-800 rounded-xl px-4 mt-4">
                 <Code2 className="w-8 h-8 text-slate-700 mb-2" />
                 <p className="text-sm text-slate-500">Select a section on the canvas or left sidebar to edit its code.</p>
               </div>

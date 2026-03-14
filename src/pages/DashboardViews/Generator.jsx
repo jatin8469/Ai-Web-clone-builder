@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import { 
   Plus, 
   Clock, 
@@ -14,11 +14,11 @@ import {
   Eye,
   RefreshCcw,
   CheckCircle,
-  Briefcase,
   User,
   ShoppingBag,
   Utensils,
-  Rocket
+  Rocket,
+  Maximize
 } from 'lucide-react';
 import { generateWebsiteHtml } from '../../ai/generateWebsite';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -65,6 +65,13 @@ export default function Generator() {
       setLoading(true);
       setError('');
       setGeneratedHtml('');
+
+      // Check Project Limit (Max 10 per user)
+      const q = query(collection(db, 'projects'), where('userID', '==', currentUser.uid));
+      const snap = await getDocs(q);
+      if (snap.size >= 10) {
+        throw new Error("You have reached the maximum limit of 10 projects. Please delete an older project to generate a new one.");
+      }
       
       // Pass template to AI prompt (we'll need to update generateWebsiteHtml to accept template)
       const html = await generateWebsiteHtml(url, template);
@@ -91,6 +98,19 @@ export default function Generator() {
     zip.file("index.html", generatedHtml);
     const content = await zip.generateAsync({ type: "blob" });
     saveAs(content, `website-${Date.now()}.zip`);
+  };
+
+  const handleFullscreen = () => {
+    const iframe = document.getElementById('preview-iframe');
+    if (iframe) {
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) { /* Safari */
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) { /* IE11 */
+        iframe.msRequestFullscreen();
+      }
+    }
   };
 
   return (
@@ -241,6 +261,14 @@ export default function Generator() {
                   >
                     <Smartphone className="w-4 h-4" />
                   </button>
+                  <div className="w-px h-4 bg-white/10 mx-1"></div>
+                  <button 
+                    onClick={handleFullscreen}
+                    title="Fullscreen Preview"
+                    className="p-1.5 rounded-md transition-colors text-slate-500 hover:text-white hover:bg-white/10"
+                  >
+                    <Maximize className="w-4 h-4" />
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -252,9 +280,12 @@ export default function Generator() {
                 <div className={`h-full bg-white shadow-2xl transition-all duration-500 ${device === 'mobile' ? 'rounded-[3rem] border-[8px] border-slate-800' : ''}`}>
                   {generatedHtml ? (
                     <iframe 
+                      id="preview-iframe"
                       srcDoc={generatedHtml} 
-                      className="w-full h-full border-none"
+                      className="w-full h-full border-none bg-white"
                       title="Preview"
+                      allowFullScreen={true}
+                      allow="fullscreen"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 text-slate-600 p-12 text-center">

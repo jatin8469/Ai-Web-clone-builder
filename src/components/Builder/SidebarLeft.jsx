@@ -115,6 +115,7 @@ export default function SidebarLeft({ siteData, setSiteData, activePageIdx, setA
             <option value="Portfolio">Portfolio</option>
             <option value="Restaurant">Restaurant</option>
             <option value="Agency">Agency</option>
+            <option value="Blog">Blog</option>
           </select>
 
           <button 

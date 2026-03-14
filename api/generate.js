@@ -42,9 +42,10 @@ You MUST strictly follow the design language of this template:
 ### AESTHETICS & DESIGN SYSTEM (CRITICAL - THIS IS WHAT SEPARATES GOOD FROM GREAT):
 1. **Premium Typography**: Avoid default serif/sans. Use tight letter-spacing for headings (tracking-tight) and relaxed for body (leading-relaxed).
 2. **Rich Color Palettes**: AVOID basic colors (no plain blue-500). Use sophisticated palettes (e.g., slate-900 with indigo-500/emerald-400 accents). Use modern linear \`bg-gradient-to-r\` or radial gradients for backgrounds and text (\`bg-clip-text text-transparent\`).
-3. **Glassmorphism & Depth**: Deeply integrate glass details: \`bg-white/5 backdrop-blur-xl border border-white/10\`. Use multiple blended glow effects behind main elements.
-4. **Dynamic Micro-Interactions**: Elements must feel alive. Use \`transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:scale-[1.02]\` on cards and buttons.
-5. **Modern Layouts**: Use asymmetrical bento-box grids (\`grid-cols-1 md:grid-cols-3\` with varying col-spans) and overlapping absolute elements to break the standard blocky flow.
+3. **Images (CRITICAL FIX)**: Do NOT use \`source.unsplash.com\` or \`picsum.photos\` (they are broken). You MUST use exact working URLs like \`https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop\` or stylised placeholders: \`https://placehold.co/800x600/1e293b/white?text=Stunning+Image\`. For profile pictures/avatars, use \`https://i.pravatar.cc/150?u=any_random_string\`.
+4. **Glassmorphism & Depth**: Deeply integrate glass details: \`bg-white/5 backdrop-blur-xl border border-white/10\`. Use multiple blended glow effects behind main elements.
+5. **Dynamic Micro-Interactions**: Elements must feel alive. Use \`transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:scale-[1.02]\` on cards and buttons.
+6. **Modern Layouts**: Use asymmetrical bento-box grids (\`grid-cols-1 md:grid-cols-3\` with varying col-spans) and overlapping absolute elements to break the standard blocky flow.
 
 Input:
 A website URL or business name: ${url}

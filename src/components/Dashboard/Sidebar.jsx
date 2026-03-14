@@ -116,13 +116,13 @@ export default function Sidebar() {
           <div className="w-full bg-slate-800 rounded-full h-1.5 mb-1.5 overflow-hidden">
             <motion.div 
               initial={{ width: 0 }}
-              animate={{ width: `${Math.min((projectCount / 50) * 100, 100)}%` }}
+              animate={{ width: `${Math.min((projectCount / 10) * 100, 100)}%` }}
               className="bg-indigo-600 h-1.5 rounded-full"
             ></motion.div>
           </div>
           <p className="text-[10px] text-slate-500 flex justify-between">
             <span>Usage</span>
-            <span>{projectCount} / 50 sites</span>
+            <span>{projectCount} / 10 sites</span>
           </p>
         </div>
 

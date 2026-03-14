@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { Code2 } from 'lucide-react';
 
-export default function PreviewCanvas({ activePage, selectedSectionIdx, setSelectedSectionIdx }) {
+export default function PreviewCanvas({ activePage, selectedSectionIdx, setSelectedSectionIdx, isGenerating }) {
   const iframeRef = useRef(null);
   const [compiledHtml, setCompiledHtml] = useState('');
 
@@ -73,13 +74,40 @@ export default function PreviewCanvas({ activePage, selectedSectionIdx, setSelec
   return (
     <div className="w-full h-full p-8 overflow-hidden flex items-center justify-center pointer-events-none">
       <div 
-        className="w-full max-w-[1400px] h-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-700/50 pointer-events-auto transition-all"
+        className="w-full max-w-[1400px] h-full bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-700 pointer-events-auto transition-all relative group"
       >
+        <div className="absolute top-0 left-0 right-0 h-6 bg-slate-800 border-b border-slate-700 flex items-center px-4 space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-50">
+           <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
+           <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
+           <span className="text-[10px] text-slate-500 ml-4 font-mono tracking-wider absolute left-1/2 -translate-x-1/2">{activePage?.name || 'Preview'}</span>
+        </div>
+        
+        {isGenerating && (
+          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/80 backdrop-blur-md text-indigo-400">
+            <div className="flex flex-col items-center animate-pulse">
+              <Code2 className="w-16 h-16 mb-6 animate-bounce" />
+              <h3 className="text-2xl font-bold font-mono tracking-wider mb-2">Architecting your block...</h3>
+              <p className="text-slate-400 font-mono text-sm max-w-sm text-center">AI is currently writing the Tailwind HTML for your layout. This may take a few seconds.</p>
+            </div>
+            {/* Simple progress bar animation */}
+            <div className="absolute bottom-1/4 w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+               <div className="h-full bg-indigo-500 rounded-full animate-[progress_2s_ease-in-out_infinite]" style={{ animation: 'progress 3s ease-in-out infinite' }}></div>
+            </div>
+            <style>{`
+              @keyframes progress {
+                0% { width: 0%; transform: translateX(-100%); }
+                50% { width: 50%; transform: translateX(50%); }
+                100% { width: 100%; transform: translateX(200%); }
+              }
+            `}</style>
+          </div>
+        )}
         <iframe
           ref={iframeRef}
           srcDoc={compiledHtml}
           title="Preview Canvas"
-          className="w-full h-full border-none"
+          className={`w-full h-full border-none transition-opacity duration-300 pt-6 bg-white ${isGenerating ? 'opacity-30' : 'opacity-100'}`}
           sandbox="allow-scripts allow-same-origin"
         />
       </div>

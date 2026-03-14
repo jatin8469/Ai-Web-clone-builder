@@ -159,12 +159,19 @@ export default function Projects() {
                   </button>
                   <button 
                     onClick={() => {
-                      const source = project.siteData ? '<div>New Builder Output (Export coming soon)</div>' : project.generatedCode;
-                      const blob = new Blob([source], { type: 'text/html' });
-                      const url = URL.createObjectURL(blob);
-                      window.open(url, '_blank');
+                      if (project.siteData && project.siteData.pages) {
+                        const pageHtml = project.siteData.pages[0].sections?.map(s => s.html).join('\\n') || '';
+                        const fullHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${project.siteData.seo?.title || 'Preview'}</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>body { font-family: 'Inter', sans-serif; }</style></head><body class="antialiased text-slate-900 bg-white">${pageHtml}</body></html>`;
+                        const blob = new Blob([fullHtml], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                      } else {
+                        const blob = new Blob([project.generatedCode || 'No content generated.'], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                      }
                     }}
-                    title="Live Preview HTML"
+                    title="Live HTML Preview"
                     className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-xl transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
